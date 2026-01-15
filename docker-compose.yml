@@ -36,7 +36,7 @@ services:
       MONGO_URI: ${MONGO_URI}
     restart: always
     depends_on:
-      - budget_app_mongo
+      - budget_mongo
   budget_client:
     build:
       dockerfile: Dockerfile
@@ -49,7 +49,7 @@ services:
       - '${CLIENT_OUTSIDE_PORT}:${CLIENT_DOCKER_PORT}'
     restart: always
     depends_on:
-      - budget_app_server
+      - budget_server
   budget_mongo_express:
     image: mongo-express:1.0
     container_name: budget_mongo_express_container
