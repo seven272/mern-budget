@@ -1,13 +1,22 @@
-FROM node:22-alpine
+FROM node:22-alpine AS react-build
 
 WORKDIR /app
 
-EXPOSE 5173
+EXPOSE 4000
 
-COPY package.json package-lock.json ./
+COPY package.json /app
+
+COPY package-lock.json /app
 
 RUN npm install
 
-COPY . ./
+COPY . /app
 
-CMD [ "npm", "run", "start" ]
+RUN npm run build
+
+FROM nginx:stable-alpine
+EXPOSE 3001
+COPY --from=react-build /app/dist /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY --from=react-build /app/nginx.conf /etc/nginx/conf.d/default.conf
+CMD [ "nginx", "-g", "daemon off;" ]

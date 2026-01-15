@@ -1,0 +1,49 @@
+services:
+  budget_app_mongo:
+    image: mongo:8.0
+    container_name: budget_app_mongo
+    restart: always
+    volumes:
+      - mongo_database:/data/db
+  budget_app_server:
+    build: ./server
+    container_name: budget_app_server
+    hostname: budget_app_server
+    ports:
+      - '${SERVER_OUTSIDE_PORT}:${SERVER_DOCKER_PORT}'
+    environment:
+      MONGO_URI: ${MONGO_URI}
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    restart: always
+    depends_on:
+      - budget_app_mongo
+  budget_app_client:
+    build: ./client
+    container_name: budget_app_client
+    hostname: budget_app_client
+    ports:
+      - '${CLIENT_OUTSIDE_PORT}:${CLIENT_DOCKER_PORT}'
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    restart: always
+    depends_on:
+      - budget_app_server
+  budget_app_mongo_express:
+    image: mongo-express:1.0
+    container_name: budget_app_mongo_express
+    ports:
+      - '${ME_OUTSIDE_PORT}:${ME_DOCKER_PORT}'
+    environment:
+      ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
+      ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
+    restart: always
+
+volumes:
+  mongo_database:
+networks:
+  default:
+    name: nginx_reverse_proxy

@@ -1,2 +1,6 @@
-node_modules
-npm-debug.log
+**/.vscode
+**/logs
+**/node_modules/
+**/.cashe
+**/npm-debug.log
+Dockerfile*
