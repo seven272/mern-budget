@@ -54,5 +54,5 @@ volumes:
   mongo_database:
 
 networks:
-  budget_front_tier
-  budget_back_tier
+  budget_front_tier:
+  budget_back_tier:
