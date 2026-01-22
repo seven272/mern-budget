@@ -51,6 +51,7 @@ services:
     restart: always
   budget_nginx_proxy:
     image: nginx:stable-alpine
+    container_name: budget_nginx_proxy_container
     ports:
       - '8030:80'
       - '445:443'
