@@ -4,9 +4,10 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/app5/',
   server: {
     host: true,
-    port: 4000, // This is the port which we will use in docker
+    port: 5173, // This is the port which we will use in docker
     allowedHosts: ['prank-sound.ru'],
   },
   preview: {

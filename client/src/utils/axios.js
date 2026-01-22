@@ -5,7 +5,7 @@ const BASE_URL =
 //     ? 'http://prank-sound.ru/project1/api'
 //     : '/api'
  import.meta.env.MODE === 'development'
-    ? 'http://185.251.89.77:5001/api'
+    ? 'http://185.251.89.77:5030/api'
     : '/api'
   // import.meta.env.MODE === 'development'
   //   ? 'http://localhost:5001/api'

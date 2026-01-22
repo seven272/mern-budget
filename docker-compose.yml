@@ -49,6 +49,23 @@ services:
       ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
       ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
     restart: always
+  budget_nginx_proxy:
+    image: nginx:stable-alpine
+    ports:
+      - '8030:80'
+      - '445:443'
+    volumes:
+      - './config/index.html:/var/www/html/index.html'
+      - './config/nginx.conf:/etc/nginx/nginx.conf'
+      - '/etc/letsencrypt:/etc/letsencrypt'
+    depends_on:
+      - budget_client
+      - budget_server
+      - budget_mongo
+    networks:
+      - budget_front_tier
+      - budget_back_tier
+    restart: always
 
 volumes:
   mongo_database:
