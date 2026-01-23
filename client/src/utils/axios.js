@@ -1,6 +1,7 @@
 import axios from 'axios'
-
-console.log(import.meta.env.MODE)
+const mode = import.meta.env.MODE
+console.log('режим разработки')
+console.log(mode)
 const BASE_URL =
  import.meta.env.MODE === 'development'
     ? 'http://localhost:5030/api'
