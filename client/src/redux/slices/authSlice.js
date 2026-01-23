@@ -14,7 +14,6 @@ const fetchRegisterUser = createAsyncThunk(
       })
 
       toast.success('Вы успешно зарегистрировались')
-      
       return res.data
     } catch (error) {
       toast.error('Ошибка при регистрации')
