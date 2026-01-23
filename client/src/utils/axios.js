@@ -4,7 +4,7 @@ console.log(import.meta.env.MODE)
 const BASE_URL =
  import.meta.env.MODE === 'development'
     ? 'http://localhost:5030/api'
-    : 'http://185.251.89.77:5030/api'
+    : 'http://prank-sound.ru/api'
 //  import.meta.env.MODE === 'development'
 //     ? 'http://prank-sound.ru/project1/api'
 //     : '/api'
