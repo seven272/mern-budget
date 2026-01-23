@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173, // This is the port which we will use in docker
-    allowedHosts: ['prank-sound.ru'],
+    allowedHosts: ['http://185.251.89.77', 'http://185.251.89.77:8030', 'prank-sound.ru', 'www.prank-sound.ru'],
   },
   preview: {
     port: 4444,

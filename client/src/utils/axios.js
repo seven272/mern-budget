@@ -1,12 +1,15 @@
 import axios from 'axios'
 
 const BASE_URL =
+ import.meta.env.MODE === 'development'
+    ? 'http://localhost:5030/api'
+    : 'http://185.251.89.77:5030/api'
 //  import.meta.env.MODE === 'development'
 //     ? 'http://prank-sound.ru/project1/api'
 //     : '/api'
- import.meta.env.MODE === 'development'
-    ? 'http://185.251.89.77:5030/api'
-    : '/api'
+//  import.meta.env.MODE === 'development'
+//     ? 'http://185.251.89.77:5030/api'
+//     : 'http://api'
   // import.meta.env.MODE === 'development'
   //   ? 'http://localhost:5001/api'
   //   : '/api'
