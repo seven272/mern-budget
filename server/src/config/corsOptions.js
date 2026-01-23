@@ -9,13 +9,12 @@
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
-      'http://localhost:3001',
+      'http://localhost:3030',
       'http://185.251.89.77',
-      'http://185.251.89.77/',
+      'http://185.251.89.77:3030/',
       'https://prank-sound.ru',
-      'https://prank-sound.ru/project1',
-      'https://prank-sound.ru/project1/api',
-      'http://185.251.89.77:3001',
+      'https://prank-sound.ru/app5',
+      'https://prank-sound.ru/app5/api',
     ]
 
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
