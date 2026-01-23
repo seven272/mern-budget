@@ -13,7 +13,7 @@ const corsOptions = {
       'http://185.251.89.77',
       'http://185.251.89.77:3030/',
       'https://prank-sound.ru',
-      'https://prank-sound.ru/app5',
+      'https://prank-sound.ru/app5/',
       'https://prank-sound.ru/app5/api',
     ]
 
