@@ -34,8 +34,6 @@ services:
     container_name: budget_mongo_express_container
     ports:
       - '${ME_OUTSIDE_PORT}:${ME_DOCKER_PORT}'
-    networks:
-      - budget_back_tier
     environment:
       ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
       ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
