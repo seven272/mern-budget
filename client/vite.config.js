@@ -11,8 +11,8 @@ export default defineConfig({
     allowedHosts: [
       'http://185.251.89.77',
       'http://185.251.89.77:8030',
-      'prank-sound.ru',
-      'www.prank-sound.ru',
+      'sportplans.ru',
+      'www.sportplans.ru',
     ],
   },
   preview: {
