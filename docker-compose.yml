@@ -12,7 +12,7 @@ services:
       dockerfile: Dockerfile
       context: ./server
     container_name: budget_server_container
-    # hostname: budget_server_host
+    hostname: budget_server_host
     ports:
       - '${SERVER_OUTSIDE_PORT}:${SERVER_DOCKER_PORT}'
     environment:
@@ -27,7 +27,7 @@ services:
       dockerfile: Dockerfile
       context: ./client
     container_name: budget_client_container
-    # hostname: budget_client_host
+    hostname: budget_client_host
     ports:
       - '${CLIENT_OUTSIDE_PORT}:${CLIENT_DOCKER_PORT}'
     networks:
