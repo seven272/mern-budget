@@ -2,7 +2,7 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-EXPOSE 5000
+EXPOSE 5050
 
 COPY package.json package-lock.json ./
 
