@@ -12,9 +12,8 @@ const corsOptions = {
       'http://localhost:3030',
       'http://185.251.89.77',
       'http://185.251.89.77:3030/',
-      'https://prank-sound.ru',
-      'https://prank-sound.ru/app5/',
-      'https://prank-sound.ru/app5/api',
+      'https://sportplans.ru',
+      'https://"sportplans.ru/',
     ]
 
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
