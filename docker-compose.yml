@@ -1,11 +1,11 @@
 services:
-  budget_mongo:
+  budget-mongo:
     image: mongo:8.0
     container_name: budget_mongo_container
     restart: always
     volumes:
       - mongo_database:/data/db
-  budget_server:
+  budget-server:
     build:
       dockerfile: Dockerfile
       context: ./server
@@ -15,10 +15,12 @@ services:
       - '${SERVER_OUTSIDE_PORT}:${SERVER_DOCKER_PORT}'
     environment:
       MONGO_URI: ${MONGO_URI}
+    networks:
+      - nginx-rp-net
     restart: always
     depends_on:
-      - budget_mongo
-  budget_client:
+      - budget-mongo
+  budget-client:
     build:
       dockerfile: Dockerfile
       context: ./client
@@ -26,10 +28,12 @@ services:
     hostname: budget_client_host
     ports:
       - '${CLIENT_OUTSIDE_PORT}:${CLIENT_DOCKER_PORT}'
+    networks:
+      - nginx-rp-net
     restart: always
     depends_on:
-      - budget_server
-  budget_mongo_express:
+      - budget-server
+  budget-mongo-express:
     image: mongo-express:1.0
     container_name: budget_mongo_express_container
     ports:
@@ -44,6 +48,6 @@ volumes:
   mongo_database:
 
 networks:
-  default:
-    name: nginx_rp_tier
+  nginx-rp-net:
+    driver: bridge
     external: true # указывает на использование существующей сети, а не создание новой
