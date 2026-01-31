@@ -1,7 +1,7 @@
 services:
   budget-mongo:
     image: mongo:8.0
-    # container_name: budget_mongo_container
+    container_name: budget_mongo_container
     networks:
       - nginx-rp-net
     restart: always
@@ -11,7 +11,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./server
-    # container_name: budget_server_container
+    container_name: budget_server_container
     # hostname: budget_server_host
     ports:
       - '${SERVER_OUTSIDE_PORT}:${SERVER_DOCKER_PORT}'
@@ -26,7 +26,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./client
-    # container_name: budget_client_container
+    container_name: budget_client_container
     # hostname: budget_client_host
     ports:
       - '${CLIENT_OUTSIDE_PORT}:${CLIENT_DOCKER_PORT}'
@@ -37,7 +37,7 @@ services:
       - budget-server
   budget-mongo-express:
     image: mongo-express:1.0
-    # container_name: budget_mongo_express_container
+    container_name: budget_mongo_express_container
     ports:
       - '${ME_OUTSIDE_PORT}:${ME_DOCKER_PORT}'
     environment:
