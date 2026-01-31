@@ -2,7 +2,7 @@ FROM node:22-alpine AS react-build
 
 WORKDIR /app
 
-EXPOSE 5173
+EXPOSE 3030
 
 COPY package.json /app
 

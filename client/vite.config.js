@@ -7,10 +7,10 @@ export default defineConfig({
   base: '/',
   server: {
     host: true,
-    port: 5173, // This is the port which we will use in docker
+    port: 3030, // This is the port which we will use in docker
     allowedHosts: [
       'http://185.251.89.77',
-      'http://185.251.89.77:8030',
+      'http://185.251.89.77:3030',
       'sportplans.ru',
       'www.sportplans.ru',
     ],
