@@ -2,8 +2,6 @@ services:
   budget-mongo:
     image: mongo:8.0
     container_name: budget_mongo_container
-    networks:
-      - nginx-rp-net
     restart: always
     volumes:
       - mongo_database:/data/db
@@ -44,8 +42,6 @@ services:
       ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
       ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
       ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
-    networks:
-      - nginx-rp-net
     restart: always
 
 volumes:
