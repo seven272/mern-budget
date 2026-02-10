@@ -97,6 +97,8 @@ networks:
   # Внешняя сеть для связи с Traefik
   traefik-net:
     external: true
+    driver_opts:
+      com.docker.network.driver.mtu: "1400" # Чтобы Docker всегда помнил про MTU
   # Внутренняя сеть для связи Backend <-> MongoDB
   budget-app-net:
     driver: bridge
