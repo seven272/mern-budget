@@ -53,7 +53,7 @@ services:
       - 'traefik.http.routers.budget-front.rule=Host(`sportplans.ru`)'
       - 'traefik.http.routers.budget-front.entrypoints=websecure'
       - 'traefik.http.routers.budget-front.tls.certresolver=myresolver'
-      # Порт, на котором работает React/Nginx внутри контейнера
+      # Порт, на котором работает React/Nginx внутри контейнера. Для dev указываем порт Vite, prod - порт Nginx
       - 'traefik.http.services.budget-front.loadbalancer.server.port=4030'
       # ПРИОРИТЕТ 10 (самый низкий)
       # Это правило "по умолчанию" для всего, что не попало в /api
