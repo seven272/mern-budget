@@ -54,7 +54,7 @@ services:
       - 'traefik.http.routers.budget-front.entrypoints=websecure'
       - 'traefik.http.routers.budget-front.tls.certresolver=myresolver'
       # Порт, на котором работает React/Nginx внутри контейнера
-      - 'traefik.http.services.budget-front.loadbalancer.server.port=3030'
+      - 'traefik.http.services.budget-front.loadbalancer.server.port=4030'
       # ПРИОРИТЕТ 10 (самый низкий)
       # Это правило "по умолчанию" для всего, что не попало в /api
       - 'traefik.http.routers.budget-front.priority=10'
@@ -84,6 +84,7 @@ services:
       # 3. MIDDLEWARE: Отрезаем приставку /db-admin перед отправкой в контейнер
       # Чтобы запрос 'sportplans.ru/db-admin/assets/app.js' стал '/assets/app.js'
       - 'traefik.http.middlewares.budget-me-strip.stripprefix.prefixes=/db-admin'
+      - 'traefik.http.middlewares.budget-me-strip.stripprefix.forceSlash=true' 
       - 'traefik.http.routers.budget-me.middlewares=budget-me-strip'
 
       # 4. ПОРТ: Внутренний порт mongo-express
