@@ -3,7 +3,7 @@ services:
     image: mongo:8.0
     container_name: budget_mongo_container
     networks:
-      - nginx-rp-net
+      - budget-app-net
     restart: always
     volumes:
       - mongo_database:/data/db
@@ -12,29 +12,52 @@ services:
       dockerfile: Dockerfile
       context: ./server
     container_name: budget_server_container
-    hostname: budget_server_host
     ports:
       - '${SERVER_OUTSIDE_PORT}:${SERVER_DOCKER_PORT}'
     environment:
       MONGO_URI: ${MONGO_URI}
     networks:
-      - nginx-rp-net
+      - traefik-net
+      - budget-app-net
     restart: always
     depends_on:
       - budget-mongo
+    labels:
+      - 'traefik.enable=true'
+      # Слушаем тот же хост, но только путь /api
+      - 'traefik.http.routers.budget-back.rule=Host(`sportplans.ru`) && PathPrefix(`/api`)'
+      - 'traefik.http.routers.budget-back.entrypoints=websecure'
+      - 'traefik.http.routers.budget-back.tls.certresolver=myresolver'
+
+      # ПРИОРИТЕТ: Чтобы /api не перехватил фронтенд
+      - 'traefik.http.routers.budget-back.priority=100'
+
+      # ПОРТ: Внутренний порт Node.js
+      - 'traefik.http.services.budget-back.loadbalancer.server.port=5050'
   budget-client:
     build:
       dockerfile: Dockerfile
       context: ./client
     container_name: budget_client_container
-    hostname: budget_client_host
     ports:
       - '${CLIENT_OUTSIDE_PORT}:${CLIENT_DOCKER_PORT}'
     networks:
-      - nginx-rp-net
+      - traefik-net
+      - budget-app-net
     restart: always
     depends_on:
       - budget-server
+    labels:
+      - 'traefik.enable=true'
+      # Основной домен сайта
+      - 'traefik.http.routers.budget-front.rule=Host(`sportplans.ru`)'
+      - 'traefik.http.routers.budget-front.entrypoints=websecure'
+      - 'traefik.http.routers.budget-front.tls.certresolver=myresolver'
+      # Порт, на котором работает React/Nginx внутри контейнера
+      - 'traefik.http.services.budget-front.loadbalancer.server.port=3030'
+      # ПРИОРИТЕТ 10 (самый низкий)
+      # Это правило "по умолчанию" для всего, что не попало в /api
+      - 'traefik.http.routers.budget-front.priority=10'
   budget-mongo-express:
     image: mongo-express:1.0
     container_name: budget_mongo_express_container
@@ -45,12 +68,34 @@ services:
       ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
       ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
     networks:
-      - nginx-rp-net
+      - traefik-net
+      - budget-app-net
     restart: always
+    labels:
+      - 'traefik.enable=true'
+      # 1. Правило: Тот же основной домен + путь /db-admin
+      - 'traefik.http.routers.budget-me.rule=Host(`sportplans.ru`) && PathPrefix(`/db-admin`)'
+      - 'traefik.http.routers.budget-me.entrypoints=websecure'
+      - 'traefik.http.routers.budget-me.tls.certresolver=myresolver'
+
+      # 2. ПРИОРИТЕТ: Ставим выше, чем у фронтенда (10) и бэкенда (100)
+      - 'traefik.http.routers.budget-me.priority=110'
+
+      # 3. MIDDLEWARE: Отрезаем приставку /db-admin перед отправкой в контейнер
+      # Чтобы запрос 'sportplans.ru/db-admin/assets/app.js' стал '/assets/app.js'
+      - 'traefik.http.middlewares.budget-me-strip.stripprefix.prefixes=/db-admin'
+      - 'traefik.http.routers.budget-me.middlewares=budget-me-strip'
+
+      # 4. ПОРТ: Внутренний порт mongo-express
+      - 'traefik.http.services.budget-me.loadbalancer.server.port=8081'
 
 volumes:
   mongo_database:
 
 networks:
-  nginx-rp-net:
-    external: true # указывает на использование существующей сети, а не на создание новой
+  # Внешняя сеть для связи с Traefik
+  traefik-net:
+    external: true
+  # Внутренняя сеть для связи Backend <-> MongoDB
+  budget-app-net:
+    driver: bridge
